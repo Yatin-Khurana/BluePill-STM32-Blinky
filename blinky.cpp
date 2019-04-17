@@ -8,12 +8,14 @@ void delay(int del){
 	for(int y=0;y<=1000;y++);
 }
 int main(){
-	GPIOC->CRH |= GPIO_CRH_MODE13;
+	RCC->APB2ENR |= RCC_APB2ENR_IOPCEN;
+	GPIOC->CRH &= ~GPIO_CRH_CNF13;
+	GPIOC->CRH |= GPIO_CRH_MODE13_0;
 	while(1){
-		GPIOC->BSRR |= 1<<13;
-		delay(1000);
-		GPIOC->BSRR |= 1<<29;
-		delay(1000);
+		GPIOC->BSRR = (1<<13);
+		delay(10);
+		GPIOC->BSRR = (1<<29);
+		delay(10);
 	}
 	return 0;
 }
